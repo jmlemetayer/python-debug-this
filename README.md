@@ -12,20 +12,25 @@
 
 This decorator can be used to log the execution of a function.
 ```python
+import logging
 import debug_this
 
-@debug_this.function
+logging.basicConfig(level=logging.DEBUG)
+
+logger = logging.getLogger(__name__)
+
+@debug_this.function(logger)
 def example_function():
-    print("This is example_function")
+    logger.info("This is example_function")
 
 example_function()
 ```
 
 The resulting logs should look like this:
 ```
-DEBUG:debug_this.function:  >>> example_function
-This is example_function
-DEBUG:debug_this.function:  <<< example_function
+DEBUG:__main__:  >>> example_function
+INFO:__main__:This is example_function
+DEBUG:__main__:  <<< example_function
 ```
 
 [package-badge]: https://img.shields.io/pypi/v/debug-this
