@@ -36,6 +36,10 @@ class TestFunction:
             ("debug_this.functions", logging.DEBUG, f"{prefix}<<< _example_function"),
         ]
 
+    def test_function_decorator_name(self) -> None:
+        """Check that the decorated function name is correct."""
+        assert _example_function.__name__ == "_example_function"
+
     def test_function_decorator_chain(self, caplog: pytest.LogCaptureFixture) -> None:
         """Check that the execution of a decorated functions chain are logged."""
         _wrapper_function()
