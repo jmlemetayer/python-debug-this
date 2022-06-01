@@ -3,6 +3,7 @@ name: python-debug-this
 on:
   push:
     branches: [ main ]
+    tags: [ '**' ]
   pull_request:
     branches: [ main ]
 
