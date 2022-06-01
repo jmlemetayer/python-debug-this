@@ -14,6 +14,9 @@ Welcome to debug_this's documentation
 
 *Python debug logging helpers*
 
+:obj:`debug_this.functions.function`
+    This decorator can be used to log the execution of a function.
+
 .. toctree::
    :hidden:
 

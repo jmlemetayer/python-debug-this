@@ -8,6 +8,26 @@
 
 *Python debug logging helpers*
 
+## `@debug_this.function`
+
+This decorator can be used to log the execution of a function.
+```python
+import debug_this
+
+@debug_this.function
+def example_function():
+    print("This is example_function")
+
+example_function()
+```
+
+The resulting logs should look like this:
+```
+DEBUG:debug_this.function:  >>> example_function
+This is example_function
+DEBUG:debug_this.function:  <<< example_function
+```
+
 [package-badge]: https://img.shields.io/pypi/v/debug-this
 [package-link]: https://pypi.org/project/debug-this
 [documentation-badge]: https://img.shields.io/readthedocs/python-debug-this
