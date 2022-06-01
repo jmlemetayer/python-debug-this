@@ -3,6 +3,6 @@ from __future__ import annotations
 
 from .functions import function
 
-__version__ = "0.0.0.dev1"
+__version__ = "0.1.0"
 
 __all__ = ["function"]
