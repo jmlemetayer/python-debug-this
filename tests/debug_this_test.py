@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 @debug_this.function
 def _example_function() -> None:
+    """Do nothing. This is an example function."""
     logger.info("This is _example_function")
 
 
@@ -39,6 +40,10 @@ class TestFunction:
     def test_function_decorator_name(self) -> None:
         """Check that the decorated function name is correct."""
         assert _example_function.__name__ == "_example_function"
+
+    def test_function_decorator_doc(self) -> None:
+        """Check that the decorated function doc is correct."""
+        assert _example_function.__doc__ == "Do nothing. This is an example function."
 
     def test_function_decorator_chain(self, caplog: pytest.LogCaptureFixture) -> None:
         """Check that the execution of a decorated functions chain are logged."""
