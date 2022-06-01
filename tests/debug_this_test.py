@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 @debug_this.function
 def _example_function() -> None:
-    logger.info("This is example_function")
+    logger.info("This is _example_function")
 
 
 class TestFunction:
@@ -23,9 +23,9 @@ class TestFunction:
         _example_function()
 
         assert len(caplog.records) == 3
-        assert caplog.records[0].levelname == "DEBUG"
-        assert caplog.records[0].msg.endswith("  >>> _example_function")
-        assert caplog.records[1].levelname == "INFO"
-        assert caplog.records[1].msg == "This is example_function"
-        assert caplog.records[2].levelname == "DEBUG"
-        assert caplog.records[2].msg.endswith("  <<< _example_function")
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            ("debug_this.functions", logging.DEBUG, f"{prefix}>>> _example_function"),
+            ("tests.debug_this_test", logging.INFO, "This is _example_function"),
+            ("debug_this.functions", logging.DEBUG, f"{prefix}<<< _example_function"),
+        ]
