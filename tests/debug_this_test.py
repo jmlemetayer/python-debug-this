@@ -15,6 +15,12 @@ def _example_function() -> None:
     logger.info("This is _example_function")
 
 
+@debug_this.function
+def _wrapper_function() -> None:
+    logger.info("This is _wrapper_function")
+    _example_function()
+
+
 class TestFunction:
     """Test cases related to the function helpers."""
 
@@ -28,4 +34,19 @@ class TestFunction:
             ("debug_this.functions", logging.DEBUG, f"{prefix}>>> _example_function"),
             ("tests.debug_this_test", logging.INFO, "This is _example_function"),
             ("debug_this.functions", logging.DEBUG, f"{prefix}<<< _example_function"),
+        ]
+
+    def test_function_decorator_chain(self, caplog: pytest.LogCaptureFixture) -> None:
+        """Check that the execution of a decorated functions chain are logged."""
+        _wrapper_function()
+
+        assert len(caplog.records) == 6
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            ("debug_this.functions", logging.DEBUG, f"{prefix}>>> _wrapper_function"),
+            ("tests.debug_this_test", logging.INFO, "This is _wrapper_function"),
+            ("debug_this.functions", logging.DEBUG, f"{prefix}  >>> _example_function"),
+            ("tests.debug_this_test", logging.INFO, "This is _example_function"),
+            ("debug_this.functions", logging.DEBUG, f"{prefix}  <<< _example_function"),
+            ("debug_this.functions", logging.DEBUG, f"{prefix}<<< _wrapper_function"),
         ]
