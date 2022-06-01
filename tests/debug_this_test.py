@@ -27,6 +27,11 @@ def _logger_args_function() -> None:
     logger.info("This is _logger_args_function")
 
 
+@debug_this.function(logger=logger)
+def _logger_kwargs_function() -> None:
+    logger.info("This is _logger_kwargs_function")
+
+
 class TestFunction:
     """Test cases related to the function helpers."""
 
@@ -84,5 +89,27 @@ class TestFunction:
                 "tests.debug_this_test",
                 logging.DEBUG,
                 f"{prefix}<<< _logger_args_function",
+            ),
+        ]
+
+    def test_function_decorator_logger_kwargs(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        """Check that specifying a logger using kwargs is working."""
+        _logger_kwargs_function()
+
+        assert len(caplog.records) == 3
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            (
+                "tests.debug_this_test",
+                logging.DEBUG,
+                f"{prefix}>>> _logger_kwargs_function",
+            ),
+            ("tests.debug_this_test", logging.INFO, "This is _logger_kwargs_function"),
+            (
+                "tests.debug_this_test",
+                logging.DEBUG,
+                f"{prefix}<<< _logger_kwargs_function",
             ),
         ]
