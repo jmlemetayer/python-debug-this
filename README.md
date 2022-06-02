@@ -8,9 +8,9 @@
 
 *Python debug logging helpers*
 
-## `@debug_this.function`
+## `@debug_this.fucking_function`
 
-This decorator can be used to log the execution of a function.
+This decorator can be used to log the execution of an unfriendly function.
 ```python
 import logging
 import debug_this
@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 logger = logging.getLogger(__name__)
 
-@debug_this.function(logger)
+@debug_this.fucking_function(logger)
 def example_function():
     logger.info("This is example_function")
 

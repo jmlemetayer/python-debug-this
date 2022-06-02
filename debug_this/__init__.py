@@ -12,8 +12,8 @@ module_logger = logging.getLogger(__name__)
 __version__ = "0.2.0"
 
 
-def function(*args: Any, **kwargs: Any) -> Any:
-    """Log the execution of a decorated function.
+def fucking_function(*args: Any, **kwargs: Any) -> Any:
+    """Log the execution of an unfriendly function.
 
     Parameters
     ----------
@@ -29,7 +29,7 @@ def function(*args: Any, **kwargs: Any) -> Any:
     >>>
     >>> logger = logging.getLogger(__name__)
     >>>
-    >>> @debug_this.function(logger)
+    >>> @debug_this.fucking_function(logger)
     >>> def example_function():
     ...     logger.info("This is example_function")
     >>>
@@ -48,9 +48,9 @@ def function(*args: Any, **kwargs: Any) -> Any:
 
     def decorator(function: Callable[..., Any]) -> Callable[..., Any]:
         @functools.wraps(function)
-        def debug_this_function(*args: Any, **kwargs: Any) -> Any:
+        def debug_this_fucking_function(*args: Any, **kwargs: Any) -> Any:
             stack_level = len(
-                [x for x in inspect.stack() if x[3] != "debug_this_function"]
+                [x for x in inspect.stack() if x[3] != "debug_this_fucking_function"]
             )
 
             assert isinstance(logger, logging.Logger)  # makes mypy happy
@@ -60,7 +60,7 @@ def function(*args: Any, **kwargs: Any) -> Any:
 
             return value
 
-        return debug_this_function
+        return debug_this_fucking_function
 
     if len(args) == 1 and callable(args[0]):
         return decorator(args[0])

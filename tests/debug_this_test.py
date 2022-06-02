@@ -10,24 +10,24 @@ import debug_this
 logger = logging.getLogger(__name__)
 
 
-@debug_this.function
+@debug_this.fucking_function
 def _example_function() -> None:
     """Do nothing. This is an example function."""
     logger.info("This is _example_function")
 
 
-@debug_this.function
+@debug_this.fucking_function
 def _wrapper_function() -> None:
     logger.info("This is _wrapper_function")
     _example_function()
 
 
-@debug_this.function(logger)
+@debug_this.fucking_function(logger)
 def _logger_args_function() -> None:
     logger.info("This is _logger_args_function")
 
 
-@debug_this.function(logger=logger)
+@debug_this.fucking_function(logger=logger)
 def _logger_kwargs_function() -> None:
     logger.info("This is _logger_kwargs_function")
 
@@ -35,7 +35,7 @@ def _logger_kwargs_function() -> None:
 class TestFunction:
     """Test cases related to the function helpers."""
 
-    def test_function_decorator_basic(self, caplog: pytest.LogCaptureFixture) -> None:
+    def test_fucking_function_basic(self, caplog: pytest.LogCaptureFixture) -> None:
         """Check that the execution of a decorated function is logged."""
         _example_function()
 
@@ -47,15 +47,15 @@ class TestFunction:
             ("debug_this", logging.DEBUG, f"{prefix}<<< _example_function"),
         ]
 
-    def test_function_decorator_name(self) -> None:
+    def test_fucking_function_name(self) -> None:
         """Check that the decorated function name is correct."""
         assert _example_function.__name__ == "_example_function"
 
-    def test_function_decorator_doc(self) -> None:
+    def test_fucking_function_doc(self) -> None:
         """Check that the decorated function doc is correct."""
         assert _example_function.__doc__ == "Do nothing. This is an example function."
 
-    def test_function_decorator_chain(self, caplog: pytest.LogCaptureFixture) -> None:
+    def test_fucking_function_chain(self, caplog: pytest.LogCaptureFixture) -> None:
         """Check that the execution of a decorated chain are logged."""
         _wrapper_function()
 
@@ -70,7 +70,7 @@ class TestFunction:
             ("debug_this", logging.DEBUG, f"{prefix}<<< _wrapper_function"),
         ]
 
-    def test_function_decorator_logger_args(
+    def test_fucking_function_logger_args(
         self, caplog: pytest.LogCaptureFixture
     ) -> None:
         """Check that specifying a logger using args is working."""
@@ -92,7 +92,7 @@ class TestFunction:
             ),
         ]
 
-    def test_function_decorator_logger_kwargs(
+    def test_fucking_function_logger_kwargs(
         self, caplog: pytest.LogCaptureFixture
     ) -> None:
         """Check that specifying a logger using kwargs is working."""
