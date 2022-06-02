@@ -13,23 +13,23 @@ logger = logging.getLogger(__name__)
 @debug_this.fucking_function
 def _example_function() -> None:
     """Do nothing. This is an example function."""
-    logger.info("This is _example_function")
+    logger.info("This is an example function")
 
 
 @debug_this.fucking_function
 def _wrapper_function() -> None:
-    logger.info("This is _wrapper_function")
+    logger.info("This is a wrapper function")
     _example_function()
 
 
 @debug_this.fucking_function(logger)
 def _logger_args_function() -> None:
-    logger.info("This is _logger_args_function")
+    logger.info("This is function with logger as argument")
 
 
 @debug_this.fucking_function(logger=logger)
 def _logger_kwargs_function() -> None:
-    logger.info("This is _logger_kwargs_function")
+    logger.info("This is function with logger as keyword argument")
 
 
 class TestFunction:
@@ -43,7 +43,7 @@ class TestFunction:
         prefix = caplog.records[0].msg.split(">>>")[0]
         assert caplog.record_tuples == [
             ("debug_this", logging.DEBUG, f"{prefix}>>> _example_function"),
-            ("tests.debug_this_test", logging.INFO, "This is _example_function"),
+            ("tests.debug_this_test", logging.INFO, "This is an example function"),
             ("debug_this", logging.DEBUG, f"{prefix}<<< _example_function"),
         ]
 
@@ -63,9 +63,9 @@ class TestFunction:
         prefix = caplog.records[0].msg.split(">>>")[0]
         assert caplog.record_tuples == [
             ("debug_this", logging.DEBUG, f"{prefix}>>> _wrapper_function"),
-            ("tests.debug_this_test", logging.INFO, "This is _wrapper_function"),
+            ("tests.debug_this_test", logging.INFO, "This is a wrapper function"),
             ("debug_this", logging.DEBUG, f"{prefix}  >>> _example_function"),
-            ("tests.debug_this_test", logging.INFO, "This is _example_function"),
+            ("tests.debug_this_test", logging.INFO, "This is an example function"),
             ("debug_this", logging.DEBUG, f"{prefix}  <<< _example_function"),
             ("debug_this", logging.DEBUG, f"{prefix}<<< _wrapper_function"),
         ]
@@ -84,7 +84,11 @@ class TestFunction:
                 logging.DEBUG,
                 f"{prefix}>>> _logger_args_function",
             ),
-            ("tests.debug_this_test", logging.INFO, "This is _logger_args_function"),
+            (
+                "tests.debug_this_test",
+                logging.INFO,
+                "This is function with logger as argument",
+            ),
             (
                 "tests.debug_this_test",
                 logging.DEBUG,
@@ -106,7 +110,11 @@ class TestFunction:
                 logging.DEBUG,
                 f"{prefix}>>> _logger_kwargs_function",
             ),
-            ("tests.debug_this_test", logging.INFO, "This is _logger_kwargs_function"),
+            (
+                "tests.debug_this_test",
+                logging.INFO,
+                "This is function with logger as keyword argument",
+            ),
             (
                 "tests.debug_this_test",
                 logging.DEBUG,
