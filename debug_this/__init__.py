@@ -69,3 +69,58 @@ def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
         return fucking_function_decorator(args_d[0])
     else:
         return fucking_function_decorator
+
+
+def fucking_class(*args_d: Any, **kwargs_d: Any) -> Any:
+    """Log the execution of an unfriendly class.
+
+    This decorator configures the :obj:`fucking_function` decorator on each
+    method of the specified class. All available parameters for the
+    :obj:`fucking_function` decorator can be used.
+
+    See Also
+    --------
+    fucking_function
+
+    Examples
+    --------
+    >>> import logging
+    >>> import debug_this
+    >>>
+    >>> logging.basicConfig(level=logging.DEBUG)
+    >>>
+    >>> logger = logging.getLogger(__name__)
+    >>>
+    >>> @debug_this.fucking_class(logger)
+    >>> class ExampleClass:
+    ...     def __init__(self):
+    ...         logger.info("Example constructor")
+    ...
+    ...     def example_method(self):
+    ...         logger.info("Example method")
+    >>>
+    >>> e = ExampleClass()
+    >>> e.example_method()
+    DEBUG:__main__:  >>> ExampleClass.__init__
+    INFO:__main__:Example constructor
+    DEBUG:__main__:  <<< ExampleClass.__init__
+    DEBUG:__main__:  >>> ExampleClass.example_method
+    INFO:__main__:Example method
+    DEBUG:__main__:  <<< ExampleClass.example_method
+    """
+
+    def fucking_class_decorator(cls: type) -> type:
+        if not inspect.isclass(cls):
+            raise TypeError("This decorator must be used on a class")
+
+        for name, method in inspect.getmembers(cls, inspect.isfunction):
+            setattr(cls, name, fucking_function(*args_d, **kwargs_d)(method))
+
+        return cls
+
+    if len(args_d) == 1 and callable(args_d[0]):
+        cls = args_d[0]
+        args_d = args_d[1:]
+        return fucking_class_decorator(cls)
+    else:
+        return fucking_class_decorator

@@ -32,6 +32,32 @@ def _logger_kwargs_function() -> None:
     logger.info("This is function with logger as keyword argument")
 
 
+@debug_this.fucking_class
+class _ExampleClass:
+    """Do nothing. This is an example class."""
+
+    def __init__(self, chained: bool | None = None) -> None:
+        logger.info("This is an example constructor")
+
+        if chained is True:
+            self.example_method()
+
+    def example_method(self) -> None:
+        logger.info("This is an example method")
+
+
+@debug_this.fucking_class(logger)
+class _LoggerArgsClass:
+    def __init__(self) -> None:
+        logger.info("This is class with logger as argument")
+
+
+@debug_this.fucking_class(logger=logger)
+class _LoggerKwargsClass:
+    def __init__(self) -> None:
+        logger.info("This is class with logger as keyword argument")
+
+
 class TestFunction:
     """Test cases related to the function helpers."""
 
@@ -128,4 +154,109 @@ class TestFunction:
 
             @debug_this.fucking_function
             class InvalidTypeClass:
+                pass
+
+
+class TestClass:
+    """Test cases related to the class helpers."""
+
+    def test_fucking_class_basic(self, caplog: pytest.LogCaptureFixture) -> None:
+        """Check that the execution of a decorated class is logged."""
+        _ExampleClass()
+
+        assert len(caplog.records) == 3
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            ("debug_this", logging.DEBUG, f"{prefix}>>> _ExampleClass.__init__"),
+            ("tests.debug_this_test", logging.INFO, "This is an example constructor"),
+            ("debug_this", logging.DEBUG, f"{prefix}<<< _ExampleClass.__init__"),
+        ]
+
+    def test_fucking_class_name(self) -> None:
+        """Check that the decorated class name is correct."""
+        assert _ExampleClass.__name__ == "_ExampleClass"
+
+    def test_fucking_class_doc(self) -> None:
+        """Check that the decorated class doc is correct."""
+        assert _ExampleClass.__doc__ == "Do nothing. This is an example class."
+
+    def test_fucking_class_chain(self, caplog: pytest.LogCaptureFixture) -> None:
+        """Check that the execution of a decorated chain are logged."""
+        _ExampleClass(chained=True)
+
+        assert len(caplog.records) == 6
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            ("debug_this", logging.DEBUG, f"{prefix}>>> _ExampleClass.__init__"),
+            ("tests.debug_this_test", logging.INFO, "This is an example constructor"),
+            (
+                "debug_this",
+                logging.DEBUG,
+                f"{prefix}  >>> _ExampleClass.example_method",
+            ),
+            ("tests.debug_this_test", logging.INFO, "This is an example method"),
+            (
+                "debug_this",
+                logging.DEBUG,
+                f"{prefix}  <<< _ExampleClass.example_method",
+            ),
+            ("debug_this", logging.DEBUG, f"{prefix}<<< _ExampleClass.__init__"),
+        ]
+
+    def test_fucking_class_logger_args(self, caplog: pytest.LogCaptureFixture) -> None:
+        """Check that specifying a logger using args is working."""
+        _LoggerArgsClass()
+
+        assert len(caplog.records) == 3
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            (
+                "tests.debug_this_test",
+                logging.DEBUG,
+                f"{prefix}>>> _LoggerArgsClass.__init__",
+            ),
+            (
+                "tests.debug_this_test",
+                logging.INFO,
+                "This is class with logger as argument",
+            ),
+            (
+                "tests.debug_this_test",
+                logging.DEBUG,
+                f"{prefix}<<< _LoggerArgsClass.__init__",
+            ),
+        ]
+
+    def test_fucking_class_logger_kwargs(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        """Check that specifying a logger using kwargs is working."""
+        _LoggerKwargsClass()
+
+        assert len(caplog.records) == 3
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            (
+                "tests.debug_this_test",
+                logging.DEBUG,
+                f"{prefix}>>> _LoggerKwargsClass.__init__",
+            ),
+            (
+                "tests.debug_this_test",
+                logging.INFO,
+                "This is class with logger as keyword argument",
+            ),
+            (
+                "tests.debug_this_test",
+                logging.DEBUG,
+                f"{prefix}<<< _LoggerKwargsClass.__init__",
+            ),
+        ]
+
+    def test_fucking_class_type_error(self) -> None:
+        """Check that a type error is raised when used on invalid object."""
+        with pytest.raises(TypeError):
+
+            @debug_this.fucking_class
+            def invalid_type_function() -> None:
                 pass
