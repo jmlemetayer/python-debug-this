@@ -27,35 +27,19 @@ def _logger_args_function() -> None:
     logger.info("This is function with logger as argument")
 
 
+@debug_this.fucking_function(None, True)
+def _print_parent_args_function() -> None:
+    logger.info("This is function with print_parent as argument")
+
+
 @debug_this.fucking_function(logger=logger)
 def _logger_kwargs_function() -> None:
     logger.info("This is function with logger as keyword argument")
 
 
-@debug_this.fucking_class
-class _ExampleClass:
-    """Do nothing. This is an example class."""
-
-    def __init__(self, chained: bool | None = None) -> None:
-        logger.info("This is an example constructor")
-
-        if chained is True:
-            self.example_method()
-
-    def example_method(self) -> None:
-        logger.info("This is an example method")
-
-
-@debug_this.fucking_class(logger)
-class _LoggerArgsClass:
-    def __init__(self) -> None:
-        logger.info("This is class with logger as argument")
-
-
-@debug_this.fucking_class(logger=logger)
-class _LoggerKwargsClass:
-    def __init__(self) -> None:
-        logger.info("This is class with logger as keyword argument")
+@debug_this.fucking_function(print_parent=True)
+def _print_parent_kwargs_function() -> None:
+    logger.info("This is function with print_parent as keyword argument")
 
 
 class TestFunction:
@@ -122,6 +106,35 @@ class TestFunction:
             ),
         ]
 
+    def test_fucking_function_print_parent_args(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        """Check that specifying a print_parent using args is working."""
+        _print_parent_args_function()
+
+        assert len(caplog.records) == 3
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            (
+                "debug_this",
+                logging.DEBUG,
+                (
+                    f"{prefix}>>> _print_parent_args_function "
+                    "(parent: test_fucking_function_print_parent_args)"
+                ),
+            ),
+            (
+                "tests.debug_this_test",
+                logging.INFO,
+                "This is function with print_parent as argument",
+            ),
+            (
+                "debug_this",
+                logging.DEBUG,
+                f"{prefix}<<< _print_parent_args_function",
+            ),
+        ]
+
     def test_fucking_function_logger_kwargs(
         self, caplog: pytest.LogCaptureFixture
     ) -> None:
@@ -148,6 +161,35 @@ class TestFunction:
             ),
         ]
 
+    def test_fucking_function_print_parent_kwargs(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        """Check that specifying a print_parent using kwargs is working."""
+        _print_parent_kwargs_function()
+
+        assert len(caplog.records) == 3
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            (
+                "debug_this",
+                logging.DEBUG,
+                (
+                    f"{prefix}>>> _print_parent_kwargs_function "
+                    "(parent: test_fucking_function_print_parent_kwargs)"
+                ),
+            ),
+            (
+                "tests.debug_this_test",
+                logging.INFO,
+                "This is function with print_parent as keyword argument",
+            ),
+            (
+                "debug_this",
+                logging.DEBUG,
+                f"{prefix}<<< _print_parent_kwargs_function",
+            ),
+        ]
+
     def test_fucking_function_type_error(self) -> None:
         """Check that a type error is raised when used on invalid object."""
         with pytest.raises(TypeError):
@@ -155,6 +197,44 @@ class TestFunction:
             @debug_this.fucking_function
             class InvalidTypeClass:
                 pass
+
+
+@debug_this.fucking_class
+class _ExampleClass:
+    """Do nothing. This is an example class."""
+
+    def __init__(self, chained: bool | None = None) -> None:
+        logger.info("This is an example constructor")
+
+        if chained is True:
+            self.example_method()
+
+    def example_method(self) -> None:
+        logger.info("This is an example method")
+
+
+@debug_this.fucking_class(logger)
+class _LoggerArgsClass:
+    def __init__(self) -> None:
+        logger.info("This is class with logger as argument")
+
+
+@debug_this.fucking_class(None, True)
+class _PrintParentArgsClass:
+    def __init__(self) -> None:
+        logger.info("This is class with print_parent as argument")
+
+
+@debug_this.fucking_class(logger=logger)
+class _LoggerKwargsClass:
+    def __init__(self) -> None:
+        logger.info("This is class with logger as keyword argument")
+
+
+@debug_this.fucking_class(print_parent=True)
+class _PrintParentKwargsClass:
+    def __init__(self) -> None:
+        logger.info("This is class with print_parent as keyword argument")
 
 
 class TestClass:
@@ -227,6 +307,35 @@ class TestClass:
             ),
         ]
 
+    def test_fucking_class_print_parent_args(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        """Check that specifying a print_parent using args is working."""
+        _PrintParentArgsClass()
+
+        assert len(caplog.records) == 3
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            (
+                "debug_this",
+                logging.DEBUG,
+                (
+                    f"{prefix}>>> _PrintParentArgsClass.__init__ "
+                    "(parent: test_fucking_class_print_parent_args)"
+                ),
+            ),
+            (
+                "tests.debug_this_test",
+                logging.INFO,
+                "This is class with print_parent as argument",
+            ),
+            (
+                "debug_this",
+                logging.DEBUG,
+                f"{prefix}<<< _PrintParentArgsClass.__init__",
+            ),
+        ]
+
     def test_fucking_class_logger_kwargs(
         self, caplog: pytest.LogCaptureFixture
     ) -> None:
@@ -250,6 +359,35 @@ class TestClass:
                 "tests.debug_this_test",
                 logging.DEBUG,
                 f"{prefix}<<< _LoggerKwargsClass.__init__",
+            ),
+        ]
+
+    def test_fucking_class_print_parent_kwargs(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        """Check that specifying a print_parent using kwargs is working."""
+        _PrintParentKwargsClass()
+
+        assert len(caplog.records) == 3
+        prefix = caplog.records[0].msg.split(">>>")[0]
+        assert caplog.record_tuples == [
+            (
+                "debug_this",
+                logging.DEBUG,
+                (
+                    f"{prefix}>>> _PrintParentKwargsClass.__init__ "
+                    "(parent: test_fucking_class_print_parent_kwargs)"
+                ),
+            ),
+            (
+                "tests.debug_this_test",
+                logging.INFO,
+                "This is class with print_parent as keyword argument",
+            ),
+            (
+                "debug_this",
+                logging.DEBUG,
+                f"{prefix}<<< _PrintParentKwargsClass.__init__",
             ),
         ]
 

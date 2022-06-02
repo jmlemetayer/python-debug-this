@@ -19,6 +19,8 @@ def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
     ----------
     logger: logging.Logger, optional
         Specify a logger instead of the default one.
+    print_parent: bool, optional
+        Print which function has called the decorated function.
 
     Examples
     --------
@@ -39,9 +41,13 @@ def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
     DEBUG:__main__:  <<< example_function
     """
     logger: logging.Logger | None = kwargs_d.get("logger", None)
+    print_parent: bool | None = kwargs_d.get("print_parent", None)
 
-    if len(args_d) == 1 and isinstance(args_d[0], logging.Logger):
+    if len(args_d) >= 1 and isinstance(args_d[0], logging.Logger):
         logger = args_d[0]
+
+    if len(args_d) >= 2 and isinstance(args_d[1], bool):
+        print_parent = args_d[1]
 
     if logger is None:
         logger = module_logger
@@ -52,14 +58,22 @@ def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
 
         @functools.wraps(func)
         def debug_this_fucking_function(*args_f: Any, **kwargs_f: Any) -> Any:
-            stack_level = len(
-                [x for x in inspect.stack() if x[3] != "debug_this_fucking_function"]
-            )
+            stack = [
+                x[3] for x in inspect.stack() if x[3] != "debug_this_fucking_function"
+            ]
+            stack_level = len(stack)
+            prefix = "  " * stack_level
 
             assert isinstance(logger, logging.Logger)  # makes mypy happy
-            logger.debug(f"{'  ' * stack_level}>>> {func.__qualname__}")
+
+            if print_parent is True:
+                logger.debug(f"{prefix}>>> {func.__qualname__} (parent: {stack[0]})")
+            else:
+                logger.debug(f"{prefix}>>> {func.__qualname__}")
+
             value = func(*args_f, **kwargs_f)
-            logger.debug(f"{'  ' * stack_level}<<< {func.__qualname__}")
+
+            logger.debug(f"{prefix}<<< {func.__qualname__}")
 
             return value
 
