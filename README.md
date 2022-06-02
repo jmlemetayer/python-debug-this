@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 @debug_this.fucking_function(logger)
 def example_function():
-    logger.info("This is example_function")
+    logger.info("This is an example function")
 
 example_function()
 ```
@@ -29,7 +29,7 @@ example_function()
 The resulting logs should look like this:
 ```
 DEBUG:__main__:  >>> example_function
-INFO:__main__:This is example_function
+INFO:__main__:This is an example function
 DEBUG:__main__:  <<< example_function
 ```
 
