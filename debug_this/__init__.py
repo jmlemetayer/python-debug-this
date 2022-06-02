@@ -47,6 +47,9 @@ def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
         logger = module_logger
 
     def fucking_function_decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+        if not inspect.isfunction(func):
+            raise TypeError("This decorator must be used on a function")
+
         @functools.wraps(func)
         def debug_this_fucking_function(*args_f: Any, **kwargs_f: Any) -> Any:
             stack_level = len(

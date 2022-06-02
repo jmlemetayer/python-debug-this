@@ -121,3 +121,11 @@ class TestFunction:
                 f"{prefix}<<< _logger_kwargs_function",
             ),
         ]
+
+    def test_fucking_function_type_error(self) -> None:
+        """Check that a type error is raised when used on invalid object."""
+        with pytest.raises(TypeError):
+
+            @debug_this.fucking_function
+            class InvalidTypeClass:
+                pass
