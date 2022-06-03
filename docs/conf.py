@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath(".."))
 from debug_this import __version__  # noqa: E402
 
 project = "debug_this"
-copyright = "2021, Jean-Marie Lemetayer"
+copyright = "2022, Jean-Marie Lemetayer"
 author = "Jean-Marie Lemetayer"
 
 version = __version__
