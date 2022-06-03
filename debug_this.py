@@ -9,7 +9,7 @@ from typing import Callable
 
 module_logger = logging.getLogger(__name__)
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 
 def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
