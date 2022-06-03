@@ -92,6 +92,13 @@ The resulting logs should look like this::
     DEBUG:__main__:    <<< ExampleClass.example_static_method
     DEBUG:__main__:  <<< ExampleClass.__init__
 
+License
+-------
+
+The `debug_this` module is released under the `MIT License`_
+
+.. _`MIT License`: https://github.com/jmlemetayer/python-debug-this/blob/main/LICENSE.md
+
 .. toctree::
    :hidden:
 

@@ -21,6 +21,10 @@ The documentation of the `debug_this` module can be found here:
 
 > https://python-debug-this.readthedocs.io
 
+## License
+
+The `debug_this` module is released under the [MIT License][license-link].
+
 [package-badge]: https://img.shields.io/pypi/v/debug-this
 [package-link]: https://pypi.org/project/debug-this
 [documentation-badge]: https://img.shields.io/readthedocs/python-debug-this
