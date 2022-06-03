@@ -59,7 +59,9 @@ def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
         @functools.wraps(func)
         def debug_this_fucking_function(*args_f: Any, **kwargs_f: Any) -> Any:
             stack = [
-                x[3] for x in inspect.stack() if x[3] != "debug_this_fucking_function"
+                x.function
+                for x in inspect.stack()
+                if x[3] != "debug_this_fucking_function"
             ]
             stack_level = len(stack)
             prefix = "  " * stack_level
