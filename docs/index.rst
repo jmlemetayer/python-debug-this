@@ -11,7 +11,7 @@ Welcome to debug_this's documentation
    :target: https://github.com/jmlemetayer/python-debug-this/actions
 .. image:: https://results.pre-commit.ci/badge/github/jmlemetayer/python-debug-this/main.svg
    :target: https://results.pre-commit.ci/latest/github/jmlemetayer/python-debug-this/main
-.. image:: https://img.shields.io/codecov/c/gh/jmlemetayer/debug-this/main
+.. image:: https://img.shields.io/codecov/c/gh/jmlemetayer/python-debug-this/main
    :target: https://codecov.io/gh/jmlemetayer/python-debug-this
 
 *Python debug logging helpers*

@@ -36,5 +36,5 @@ The `debug_this` module is released under the [MIT License][license-link].
 [build-link]: https://github.com/jmlemetayer/python-debug-this/actions
 [pre-commit-badge]: https://results.pre-commit.ci/badge/github/jmlemetayer/python-debug-this/main.svg
 [pre-commit-link]: https://results.pre-commit.ci/latest/github/jmlemetayer/python-debug-this/main
-[coverage-badge]: https://img.shields.io/codecov/c/gh/jmlemetayer/debug-this/main
+[coverage-badge]: https://img.shields.io/codecov/c/gh/jmlemetayer/python-debug-this/main
 [coverage-link]: https://codecov.io/gh/jmlemetayer/python-debug-this
