@@ -66,7 +66,8 @@ def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
             stack_level = len(stack)
             prefix = "  " * stack_level
 
-            assert isinstance(logger, logging.Logger)  # makes mypy happy
+            # makes mypy happy
+            assert isinstance(logger, logging.Logger)  # nosec assert_used
 
             if print_parent is True:
                 logger.debug(
