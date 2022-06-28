@@ -69,13 +69,15 @@ def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
             assert isinstance(logger, logging.Logger)  # makes mypy happy
 
             if print_parent is True:
-                logger.debug(f"{prefix}>>> {func.__qualname__} (parent: {stack[0]})")
+                logger.debug(
+                    "%s>>> %s (parent: %s)", prefix, func.__qualname__, stack[0]
+                )
             else:
-                logger.debug(f"{prefix}>>> {func.__qualname__}")
+                logger.debug("%s>>> %s", prefix, func.__qualname__)
 
             value = func(*args_f, **kwargs_f)
 
-            logger.debug(f"{prefix}<<< {func.__qualname__}")
+            logger.debug("%s<<< %s", prefix, func.__qualname__)
 
             return value
 
@@ -83,8 +85,7 @@ def fucking_function(*args_d: Any, **kwargs_d: Any) -> Any:
 
     if len(args_d) == 1 and callable(args_d[0]):
         return fucking_function_decorator(args_d[0])
-    else:
-        return fucking_function_decorator
+    return fucking_function_decorator
 
 
 def fucking_class(*args_d: Any, **kwargs_d: Any) -> Any:
@@ -138,5 +139,4 @@ def fucking_class(*args_d: Any, **kwargs_d: Any) -> Any:
         cls = args_d[0]
         args_d = args_d[1:]
         return fucking_class_decorator(cls)
-    else:
-        return fucking_class_decorator
+    return fucking_class_decorator

@@ -1,4 +1,7 @@
 """Test cases for the `debug_this` package."""
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+# pylint: disable=too-few-public-methods
 from __future__ import annotations
 
 import logging
@@ -50,7 +53,7 @@ class TestFunction:
         _example_function()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             ("debug_this", logging.DEBUG, f"{prefix}>>> _example_function"),
             ("tests.debug_this_test", logging.INFO, "This is an example function"),
@@ -70,7 +73,7 @@ class TestFunction:
         _wrapper_function()
 
         assert len(caplog.records) == 6
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             ("debug_this", logging.DEBUG, f"{prefix}>>> _wrapper_function"),
             ("tests.debug_this_test", logging.INFO, "This is a wrapper function"),
@@ -87,7 +90,7 @@ class TestFunction:
         _logger_args_function()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             (
                 "tests.debug_this_test",
@@ -113,7 +116,7 @@ class TestFunction:
         _print_parent_args_function()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             (
                 "debug_this",
@@ -142,7 +145,7 @@ class TestFunction:
         _logger_kwargs_function()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             (
                 "tests.debug_this_test",
@@ -168,7 +171,7 @@ class TestFunction:
         _print_parent_kwargs_function()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             (
                 "debug_this",
@@ -192,6 +195,7 @@ class TestFunction:
 
     def test_fucking_function_type_error(self) -> None:
         """Check that a type error is raised when used on invalid object."""
+        # pylint: disable=unused-variable
         with pytest.raises(TypeError):
 
             @debug_this.fucking_function
@@ -245,7 +249,7 @@ class TestClass:
         _ExampleClass()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             ("debug_this", logging.DEBUG, f"{prefix}>>> _ExampleClass.__init__"),
             ("tests.debug_this_test", logging.INFO, "This is an example constructor"),
@@ -265,7 +269,7 @@ class TestClass:
         _ExampleClass(chained=True)
 
         assert len(caplog.records) == 6
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             ("debug_this", logging.DEBUG, f"{prefix}>>> _ExampleClass.__init__"),
             ("tests.debug_this_test", logging.INFO, "This is an example constructor"),
@@ -288,7 +292,7 @@ class TestClass:
         _LoggerArgsClass()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             (
                 "tests.debug_this_test",
@@ -314,7 +318,7 @@ class TestClass:
         _PrintParentArgsClass()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             (
                 "debug_this",
@@ -343,7 +347,7 @@ class TestClass:
         _LoggerKwargsClass()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             (
                 "tests.debug_this_test",
@@ -369,7 +373,7 @@ class TestClass:
         _PrintParentKwargsClass()
 
         assert len(caplog.records) == 3
-        prefix = caplog.records[0].msg.split(">>>")[0]
+        prefix = caplog.records[0].getMessage().split(">>>")[0]
         assert caplog.record_tuples == [
             (
                 "debug_this",
