@@ -7,6 +7,7 @@ Notes
 .. _Sphinx configuration:
    https://www.sphinx-doc.org/en/master/usage/configuration.html
 """
+# pylint: disable=invalid-name
 from __future__ import annotations
 
 import os
@@ -14,10 +15,10 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
-from debug_this import __version__  # noqa: E402
+from debug_this import __version__  # noqa: E402 # pylint: disable=wrong-import-position
 
 project = "debug_this"
-copyright = "2022, Jean-Marie Lemetayer"
+copyright = "2022, Jean-Marie Lemetayer"  # pylint: disable=redefined-builtin
 author = "Jean-Marie Lemetayer"
 
 version = __version__

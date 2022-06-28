@@ -1,3 +1,6 @@
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+# pylint: disable=missing-module-docstring
 from __future__ import annotations
 
 import logging
@@ -25,9 +28,9 @@ class ExampleClass:
         example_function()
 
     @staticmethod
-    def example_static_method(cls: ExampleClass) -> None:
+    def example_static_method(example_class: ExampleClass) -> None:
         logger.info("This is an example class static method")
-        cls.example_method()
+        example_class.example_method()
 
 
 if __name__ == "__main__":
